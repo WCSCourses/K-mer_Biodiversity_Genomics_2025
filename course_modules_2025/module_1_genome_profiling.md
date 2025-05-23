@@ -102,6 +102,8 @@ Let's start with several simpler spectra before analysing the spectrum above.
 
 ## Genome size estimation
 
+
+
 ## Polyploids
 
 Let's return to our very first k-mers spectrum Saccharomyces cerevisiae (`Scer`). We can either visualise the spectrum again, or simply run genomescope. If you do that later, you must remember that if the model (the black line) mismatches the data (the blue histogram) you need to ingnore all the estimated numbers and focus only on the shape of the histogram itself. And it looks like this
