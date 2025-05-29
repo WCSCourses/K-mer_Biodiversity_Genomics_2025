@@ -57,14 +57,14 @@ If you're using a work laptop, please get permission from your local IT helpdesk
 ## 3. FastK v1.1
 
    - **For all platforms**:
-     1. Download the binary from the [FastK GitHub release page](https://github.com/axel4/FastK).
+     1. Download the binary from the [FastK GitHub release page](https://github.com/thegenemyers/FASTK).
      2. Unzip the file and place it in a directory of your choice.
      3. Add that directory to your `PATH` or run it directly from the terminal.
 
 ## 4. Genomescope v2.0.1
 
    - **For all platforms**:
-     1. Go to the [Genomescope repository](https://github.com/bcgsc/Genomescope).
+     1. Go to the [Genomescope repository](https://github.com/schatzlab/genomescope).
      2. Download the appropriate version or install via `conda`:
         ```bash
         conda install -c bioconda genomescope
@@ -73,6 +73,159 @@ If you're using a work laptop, please get permission from your local IT helpdesk
         ```bash
         genomescope
         ```
+
+# Alternative way to install FastK and Genomescope
+
+### Step 1: Install Miniforge on Windows or macOS
+
+**Miniforge** is a lightweight Conda installer that defaults to using `conda-forge`, which is free and community-maintained. This avoids commercial restrictions tied to the `defaults` channel (e.g., Anaconda).
+
+👉 Download Miniforge from the official releases page:  
+[Miniforge Releases](https://github.com/conda-forge/miniforge/releases/latest)
+
+Choose the appropriate installer:
+- **Windows**: `Miniforge3-Windows-x86_64.exe`
+- **macOS (Intel)**: `Miniforge3-MacOSX-x86_64.sh`
+- **macOS (M1/M2 ARM)**: `Miniforge3-MacOSX-arm64.sh`
+
+### 🖥️ Step 2: Install Miniforge (Example for Linux)
+
+**For Linux users only**:
+
+Install `wget` if not available:
+```bash
+sudo apt update && sudo apt install -y wget
+```
+
+Download the installer:
+
+```bash
+wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+```
+
+Run the installer:
+
+```bash
+bash Miniforge3-Linux-x86_64.sh
+```
+
+Follow the prompts:
+
+Press ENTER to begin
+
+Accept the license
+
+Choose install path (default: ~/miniforge3)
+
+Let it initialize Conda when prompted
+
+### Step 3: Initialize and Verify Conda
+After installation, either:
+
+```bash
+source ~/miniforge3/bin/activate
+```
+
+Or restart your terminal.
+
+Check Conda version:
+
+```bash
+conda --version
+```
+
+Expected output:
+
+```bash
+conda 24.11.3
+```
+
+🛠️ Additional (Optional): Manually Add Conda to Your Shell
+If Conda isn’t working after install, run:
+
+```bash
+eval "$($HOME/miniforge3/bin/conda shell.bash hook)"
+```
+
+For Zsh users:
+
+```bash
+eval "$($HOME/miniforge3/bin/conda shell.zsh hook)"
+```
+
+Then initialize Conda for future sessions:
+
+```bash
+conda init
+```
+This updates your ~/.bashrc or ~/.zshrc file to load Conda automatically.
+
+Restart the terminal, or:
+
+```bash
+source ~/.bashrc    # for bash
+source ~/.zshrc     # for zsh
+```
+
+### Step 4: Configure Conda Channels
+By default, Miniforge uses conda-forge, but for bioinformatics you’ll want to add bioconda.
+
+Check current channels:
+
+```bash
+conda config --show channels
+```
+
+Remove paid/proprietary channels:
+
+```bash
+conda config --remove channels defaults
+conda config --remove channels anaconda
+conda config --remove channels r
+conda config --remove channels pro
+```
+
+Add trusted community channels:
+
+```bash
+conda config --add channels conda-forge
+conda config --add channels bioconda
+conda config --set channel_priority strict
+```
+
+Confirm configuration:
+
+```bash
+conda config --show channels
+```
+
+You should see:
+
+channels:
+  - conda-forge
+  - bioconda
+🔧 Alternative: Edit .condarc manually
+
+```bash
+nano ~/.condarc
+```
+
+Paste this:
+
+```bash
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+denylist_channels: [defaults, anaconda, r, main, pro] #!final
+```
+
+### Step 5: Install softwares
+
+```bash
+conda install -c bioconda fastk
+conda install -c bioconda genomescope
+```
 
 ---
 
