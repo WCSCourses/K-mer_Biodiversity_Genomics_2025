@@ -94,15 +94,93 @@ This genome is complicated, we well later on return to this spectrum to analyse 
 - k-mer spectra is made of several peaks
 - peaks are evenly spaced with centers of individual peaks around copy_number * 1n_coverage
 
-## fit genomeScope model
+## fit a simple GenomeScope model
 
 We have an intuition what is a k-mer spectrum is - distribution of k-mer coverages. We also intuitively understand it carries information about genome size, heterozygosity and coverage. We can fit all these using genome profiling techniques, such as GenomeScope.
 
-Let's start with several simpler spectra before analysing the spectrum above.
+Let's start with a simple spectrum before analysing the one we visualised before. _Timema_monikensis_ is a completelly homozygous diploid organism - it's a parthenogenetic stick insect.
 
-## Genome size estimation
+```bash
+cd course_data_2025/histograms/homozygous_diploid
+genomescope.R -i Timema_monikensis_k21.hist -o . -n timema -k 21
+```
 
+This is a simple fit, with default parameters the model converge to a genome size that is in the right ballpark (a bit over 1Gbp) and the species is predicted to be homozygous. This is what we excpect when things are easy.
 
+## Fitting more models
+
+The directory `course_data_2025/histograms` contains several k-mer spectra. Try to fit them one by one and make sense out of the fits. Many of the fits will require non-default parameters, you can look at the GenomeScope help (`GenomeScope.R --help`) and try to figure out how to do it, underneath there is a walkthrough with explanations.
+
+The recommended order is begonia, strawberry, human, and toad.
+
+### begonia
+
+You can try also a more heterozygous organism, such as begonia (`begonia_simple_heterozygous_diploid/Begonia_luxurians_k21.hist`)
+
+<details> 
+  <summary>Does the model look right? What is the heterozygosity level? Do you think it is a high or low for a plant?</summary>
+
+This one converges well with the default
+
+```bash
+cd course_data_2025/histograms/begonia_simple_heterozygous_diploid 
+genomescope.R -i Begonia_luxurians_k21.hist -o . -n begonia -k 21
+```
+
+</details>
+
+### strawberry
+
+Try to fit a strawberry k-mer spectrum now (`course_data_2025/histograms/convergence_problem`). It is again a diploid organism.
+
+<details> 
+  <summary>What is the monoploid genome size of a strawberry (`Fragaria`), did the model converge to something sensible? How do we know if all the peaks are part of the genome or not? Is there a parameter of GenomeScope you could explpoit to get a nicer fit?</summary>
+
+The default run converges to a heterozygous and by far too small genome. If you know about strawberries, both those will be already suspicious, but there is more to it - there is clearly one peak that is 1/2 of the coverage of the first peak included in the model. This is strongly suggesting it is part of the same genome and therefore should be part of the model. Seems the 1n coverage was estimated to be 2x as high as it should have been. You can give GenomeScope prior on coverage using parameter `-l`.
+
+```bash
+cd course_data_2025/histograms/convergence_problem
+genomescope.R -i Fragaria_iinumae_k21.hist -k 21 -p 2 -o . -n Fragaria # does not converge well
+genomescope.R -i Fragaria_iinumae_k21.hist -k 21 -p 2 -o . -n Fragaria_fixed -l 140 # yep, this is it
+```
+
+</details>
+
+### Human
+
+Another simple case is the Human genome. This is specficially one of the sequencing runs of H002, which is a male sample. Try to fit the model to it (`course_data_2025/histograms/human`).
+
+```bash
+cd course_data_2025/histograms/human
+genomescope.R -i m84005_220919_232112_s2.hifi_reads.bam.21.kmc.nozero.hist -o . -n hsap -k 21
+```
+
+what do you see? Do you trust the genome size / heterozygosity estimates? What could possibly be throwing them off?
+
+### Toad
+
+The toad dataset 
+
+```bash
+cd course_data_2025/histograms/toad_very_large_genome
+```
+The two k-mer histograms in this directory are corresponding to a k-mer histogram build with def
+ault parameters of kmc (`bombina_naive_kmc_k21.hist`), which don't count coverage over 10,000x and all k-mers with the coverage higher are simply reported as 10,000x k-mers. And a histogram with all the k-mers counted (`bombina_sp_k21.hist`).
+
+<details> 
+  <summary>What do you think would be the consequences of fitting models to one or the other for the gneome size estimation?</summary>
+
+```
+genomescope.R -i bombina_naive_kmc_k21.hist -o . -n naive
+```
+
+Hmmm, the model looks quite alright, but the genome is much smaller than what one would expect for a firebelly toad. Try to fit the same model to a histogram with all the k-mers counted (`bombina_sp_k21.hist`).
+
+```
+genomescope.R -i bombina_sp_k21.hist -o . -n kmc_full
+```
+
+</details>
 
 ## Polyploids
 
@@ -146,25 +224,3 @@ smudgeplot all data/Scer/smudgeplot_pairs.smu -o data/Scer/smudgeplot
 <summary><b> What do you think about ploidy of this species? </b></summary>
 Tetraploid, specifically of `AAAB` type. Notably, this constitution does not necesarily indicate one of the haplotypes is more divergent to others because we the B k-mers can be on different haplotype for each individual k-mer pair possibly making the 4 haplotypes equidistant. We can refute a hypothesis of two and two haplotypes that are closer to each genomes as subgenomes, as those would generate prominent AABB smudge, hence the genome is quite possibly autotetraploid.  
 </details>
-
-
-
-
-
-
-
-FIt a model to a simple k-mer spectrum
-Expectations over homozygous and heterozygous genomes
-
-Appreciate what could and could not be fit
-Estimates of genome sizes
-Common pitfalls due to wrong convergence, or limited k-mer counting
-
-See spectra that do NOT look like things went well
-Signatures of different problems
-Low coverage
-Contamination (two or multiple sources)
-Sequencing biases
-Poor model convergence / wrong model
-Genome Size estimate
-Explain the magical last position
