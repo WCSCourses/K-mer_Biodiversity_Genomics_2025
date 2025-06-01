@@ -74,7 +74,20 @@ If you're using a work laptop, please get permission from your local IT helpdesk
         genomescope
         ```
 
-# Alternative way to install FastK and Genomescope
+## 5. sourmash v4.9.0
+> If you don't have `conda` or `mamba` installed, please set up `conda` as described below.
+
+   - **For all platforms**:
+     1. Install via `conda`:
+        ```bash
+         conda install -c bioconda sourmash
+        ```
+     2. Verify installation by running:
+        ```bash
+        sourmash --version
+        ```
+
+# Setting Up Conda for Bioinformatics Software
 
 ### Step 1: Install Miniforge on Windows or macOS
 

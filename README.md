@@ -50,6 +50,7 @@ Monday to Thursday: Daily activities will include lectures, seminars, practical 
 - [Rayan Chikhi](https://rayan.chikhi.name/), Institut Pasteur in Paris, France
 - [Katharine Jenike](https://www.linkedin.com/in/katharine-m-jenike-437b4313b/), University of Cambridge, Cambridge, UK
 - [Kamil S. Jaron](https://www.sanger.ac.uk/person/jaron-kamil/), Tree of Life, Wellcome Sanger Institute
+- [Tessa Pierce-Ward](https://scholar.google.com/citations?hl=en&user=3HU8c9EAAAAJ&view_op=list_works&sortby=pubdate), University of California, Davis, USA
 
 
 **Wellcome Connecting Science Team**
