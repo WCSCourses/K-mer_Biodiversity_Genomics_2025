@@ -1,6 +1,6 @@
 # 🚀 Workshop Resources! 🚀
 
-Here are the essential links for our session:
+Here are the essential links for Katie's session:
 
 ---
 
