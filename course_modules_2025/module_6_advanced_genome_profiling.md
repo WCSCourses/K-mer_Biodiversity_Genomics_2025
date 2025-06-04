@@ -155,6 +155,8 @@ nlsLM_2peak_heterogametic_model_fixed_r <- function(x, y, estKmercov, estLength,
 Now that we got the model, let's load the data. Because human is well sequenced, we also save all the real values so we have something to compare our fit with...
 
 ```R
+library('minpack.lm')
+
 HG002 <- read.table('course_data_2025/histograms/human/m84005_220919_232112_s2.hifi_reads.bam.21.kmc.nozero.hist', col.names = c('cov', 'freq'))
 
 # these are the real results for comparison
@@ -249,7 +251,7 @@ plot_heterogametic_model_fixed_r_model <- function(het_model){
   	   predicted_by_model <- predict(het_model, response = T, newdata = list(x = x))
        
       coverage_barplot(y, x, ylim = c(0, max(HG002[fitting_range, 'freq']))) 
-      lines(predicted_by_model ~ cov_xlim, lwd = 3)
+      lines(predicted_by_model ~ x, lwd = 3)
 
        estimates <- coef(het_model)
        # extracting all the fitted values
