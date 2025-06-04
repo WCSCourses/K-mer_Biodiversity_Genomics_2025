@@ -355,7 +355,7 @@ refine_estimates <- function(genome_model, x, y){
 	monosomic_prop <- coef(genome_model)['hetSize'] / genome_size_est
 	genome_model$average_ploidy <- monosomic_prop + (2 * disomic_prop)
 
-	genome_model$refined_genome_size_est <- sum(x * y) / (genome_model$average_ploidy * coef(genome_model)['kmercov'])
+	genome_model$refined_genome_size_est <- sum(as.numeric(x) * as.numeric(y)) / (genome_model$average_ploidy * coef(genome_model)['kmercov'])
 
 	genome_model$refined_monosomic <- genome_model$refined_genome_size_est * monosomic_prop
 	genome_model$refined_disomic <- genome_model$refined_genome_size_est * disomic_prop
