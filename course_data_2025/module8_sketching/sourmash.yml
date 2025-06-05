@@ -4,6 +4,7 @@ channels:
   - bioconda
 dependencies:
   - sourmash>=4.9.2,<5
+  - ete3
   - pip
   - pip:
     - sourmash_plugin_betterplot
