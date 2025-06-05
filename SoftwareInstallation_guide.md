@@ -80,7 +80,7 @@ If you're using a work laptop, please get permission from your local IT helpdesk
    - **For all platforms**:
      1. Install via `conda`:
         ```bash
-         conda install -c bioconda sourmash
+         conda install -c conda-forge -c bioconda sourmash
         ```
      2. Verify installation by running:
         ```bash
