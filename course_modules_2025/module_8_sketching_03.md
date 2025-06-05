@@ -15,6 +15,8 @@ Do you have sourmash installed?
 
 > If not, run `conda activate sourmash` (if using conda and you've previously created the environment) or go back to the installation instructions in the first part.
 
+
+
 ## Genome-based compositional analysis of a metagenome
 
 We're going to use the same metagenome used in part 2. Instead of searching with a single genome, we're going to compare the metagenome against a comprehensive list of reference genomes using the "minimum metagenome cover approach". This approach uses two steps internally: first, search all reference genomes for k-mer overlaps, and second, use a greedy method to build the smallest list of reference genomes that contain all shared (known) k-mer content.
@@ -78,7 +80,7 @@ We will be searching against Genome Taxonomy Database (GTDB) for refseq release 
 
 **This sourmash database is constructed at k=31, scaled=10,000**, meaning we keep roughly 1/10000 k-mers per genome. We're using this low resolution to keep the database small and the analysis fast during the workshop. Higher resolution databases are available for follow-up analyses.
 
-This database can take a little time to download, so we started the download in the lecture portion of the course.
+This database can take a little time to download, so we started the download in Part 1.
 
 You should now see a compressed version of the database available:
 ```
@@ -128,12 +130,12 @@ tar xvf gtdb-rs226-SRR29654720subset.k31-sc10k.rocksdb.tar.gz
 
 examine:
 ```
-sourmash sig summarize gtdb-rs226-SRR29654720subset.k31-sc10k.rocksdb.tar.gz
+sourmash sig summarize  SRR29654720-x-gtdb-rs226.matches-sc10k.rocksdb
 ```
 
 run gather:
 ```
-sourmash gather SRR29654720.sig.zip gtdb-rs226-SRR29654720subset.k31-sc10k.rocksdb.tar.gz \
+sourmash gather SRR29654720.sig.zip SRR29654720-x-gtdb-rs226.matches-sc10k.rocksdb \
                 -k 31 --scaled 10_000 --threshold-bp 3_000_000 \
                 -o SRR29654720-x-gtdb-rs226.gather.csv
 ```
@@ -343,7 +345,7 @@ curl -JLO https://farm.cse.ucdavis.edu/~ctbrown/sourmash-db/entire-2025-01-21/en
 
 untar
 ```
-tax xzf gbentire-SRR29654720subset.k51-sc10k.rocksdb.tar.gz
+tar xvf gbentire-SRR29654720subset.k51-sc10k.rocksdb.tar.gz
 ```
 
 Run `gather`
@@ -408,7 +410,7 @@ the recovered matches hit 6.7% of the query k-mers (unweighted).
 
 We use the full lineages file to annotate the gather results:
 ```
-sourmash tax annotate -g SRR29654720-x-entire-2025-01-21.k51.gather.csv \
+sourmash tax annotate -g SRR29654720-x-gbentire.k51.gather.csv \
                       -t entire-2025-01-21.lineages.csv
 ```
 
@@ -416,7 +418,7 @@ sourmash tax annotate -g SRR29654720-x-entire-2025-01-21.k51.gather.csv \
 
 ...and then use the `sankey` command to visualize:
 ```
-sourmash scripts sankey --annotate-csv SRR29654720-x-entire-2025-01-21.k51.gather.with-lineages.csv -o SRR29654720-x-entire-2025-01-21.k51.sankey.png
+sourmash scripts sankey --annotate-csv SRR29654720-x-gbentire.k51.gather.with-lineages.csv -o SRR29654720-x-entire-2025-01-21.k51.sankey.png
 ```
 
 ![SRR29654720-x-gtdb-rs226.k31-sc10k-t3Mb.sankey](https://hackmd.io/_uploads/H1nAGEFfgl.jpg)
