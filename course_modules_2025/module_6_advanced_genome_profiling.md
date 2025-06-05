@@ -5,7 +5,6 @@ The starting point of this module's practicals is familiarity with genome profil
 Software used this session:
  - R
  - GenomeScope
- - R package GenomeTelescope
 
 ## Details of GenomeScope 
 
@@ -156,7 +155,8 @@ nlsLM_2peak_heterogametic_model_fixed_r <- function(x, y, estKmercov, estLength,
 Now that we got the model, let's load the data. Because human is well sequenced, we also save all the real values so we have something to compare our fit with...
 
 ```R
-library(GenomeTelescope)
+library('minpack.lm')
+
 HG002 <- read.table('course_data_2025/histograms/human/m84005_220919_232112_s2.hifi_reads.bam.21.kmc.nozero.hist', col.names = c('cov', 'freq'))
 
 # these are the real results for comparison
@@ -167,11 +167,31 @@ PAR <- 3.03e6
 total_human <-	human_wo_Y + Y
 male_disomic <- total_human - X - Y + PAR
 male_monosomic <- X + Y - 2 * PAR
+```
+
+And now we would like to plot it. Here we will define ourself a neat little function so we can do it for any histogram afterwards.
+
+```R
+coverage_barplot <- function(bar_heights, bar_positions, xlim = c(0, 0), ylim = c(0, 0), font_size = 1, width = 0.5){
+
+  if (ylim[2] == 0){
+      ylim[2] <- max(bar_heights)
+  }
+  if (xlim[2] == 0){
+      xlim = range(bar_positions)
+  }
+  
+  plot(bar_heights, type="n", xlab="Coverage", ylab="Frequency",
+       ylim = ylim, xlim= xlim,
+       cex.lab=font_size, cex.axis=font_size, cex.main=font_size, cex.sub=font_size)
+  for ( i in 1:length(bar_heights)){
+    rect(bar_positions[i] - width, 0, bar_positions[i] + width, bar_heights[i], col = 'deepskyblue', border = F)
+  }
+}
 
 # plot it
 fitting_range <- 6:60 # this is a prior knowledge of where is the sensible peak, normally I would look and see and then specify this variable
 coverage_barplot(HG002[1:max(fitting_range), 'freq'], HG002[1:max(fitting_range), 'cov'], ylim = c(0, max(HG002[fitting_range, 'freq']))) 
-# coverage_barplot is a simple plotting function from GenomeTelescope package you can use to plot histograms without any model.
 ```
 
 <details> 
@@ -231,7 +251,7 @@ plot_heterogametic_model_fixed_r_model <- function(het_model){
   	   predicted_by_model <- predict(het_model, response = T, newdata = list(x = x))
        
       coverage_barplot(y, x, ylim = c(0, max(HG002[fitting_range, 'freq']))) 
-      lines(predicted_by_model ~ cov_xlim, lwd = 3)
+      lines(predicted_by_model ~ x, lwd = 3)
 
        estimates <- coef(het_model)
        # extracting all the fitted values
@@ -335,7 +355,7 @@ refine_estimates <- function(genome_model, x, y){
 	monosomic_prop <- coef(genome_model)['hetSize'] / genome_size_est
 	genome_model$average_ploidy <- monosomic_prop + (2 * disomic_prop)
 
-	genome_model$refined_genome_size_est <- sum(x * y) / (genome_model$average_ploidy * coef(genome_model)['kmercov'])
+	genome_model$refined_genome_size_est <- sum(as.numeric(x) * as.numeric(y)) / (genome_model$average_ploidy * coef(genome_model)['kmercov'])
 
 	genome_model$refined_monosomic <- genome_model$refined_genome_size_est * monosomic_prop
 	genome_model$refined_disomic <- genome_model$refined_genome_size_est * disomic_prop
@@ -428,7 +448,6 @@ Which looks quite alrigt. It is hard to say at this point which genome is which,
 ### Co-bionts - wolf lichen
 
 ```R
-# library(GenomeTelescope) - if you by any chance restarted session, load this package again
 wolf_lichen <- read.table('course_data_2025/histograms/Letharia_vulpina_k21.hist', col.names = c('cov', 'freq'))
 
 fitting_range <- 20:400 # I always plot it with a coverage range and redefine it, there would be a more sensible way to do this, but it never bothered me enough to actually implement it
