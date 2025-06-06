@@ -35,6 +35,14 @@ sourmash sketch dna -p k=31,scaled=1000,abund GCF_013306015.1_ASM1330601v1_genom
 ```
 > We will add the 'abund' parameter to the sketch parameters (after `-p`). This will allow us to compare k-mer abundances between the two sketches.
 
+<!---
+This is the genome gather finds with the full gtdb database:
+```
+sourmash sketch dna -p k=31,scaled=1000,abund GCF_013375735.1_ASM1337573v1_genomic.fna.gz  --name "GCF_013375735 Ralstonia nicotianae FJAT91-F8" -o GCF_013375735.sig
+```
+--->
+
+
 ### Download a sketch of the metagenome sample and examine it
 
 To save time and space on our devices, we'll download a pre-built sketch of the metagenome sample. For commands to rebuild from reads, see the Appendix section.
@@ -150,6 +158,11 @@ Second, the query sketch is limited to 5Mb, which means you can't query with e.g
 The branchwater SRA search is web-based because the underlying metagenome database is over 1Tb in size, meaning it is impractical to provide the database for download. However, you can build sketch databases with your own local metagenomes and search them quickly using the sourmash [branchwater](https://github.com/sourmash-bio/sourmash_plugin_branchwater) plugin, e.g. via `manysearch`. For very large databases, we recommend indexing the files using sourmash's `rocksdb` index type. We will use this in the next hands-on section.
 
 
+## Next Part
+
+[What's in my metagenome?](https://hackmd.io/@bluegenes/HybXTfFzlg)
+
+
 ## Appendix
 
 If you want to download the full metagenome reads and sketch at a later date, uncomment the code below:
@@ -185,3 +198,4 @@ Run the search with `manysearch`. In this example I'm using `--scaled 1000`, but
 ```
 sourmash scripts manysearch GCF_013306015.sig SRR29654720.sig.zip -k 31 --scaled 1000 --output GCF_013306015-x-SRR29654720.k31-sc1000.manysearch.csv
 ```
+
