@@ -237,6 +237,9 @@ sourmash scripts venn GCF_002251655.sig GCF_000009125.sig -k 31 \
 
 ![venn_GCF_002251655-x-GCF_000009125](https://hackmd.io/_uploads/B1yj5gtzee.png)
 
+<!---
+![Venn diagram of GCF_002251655 and GCF_000009125](module8_sketching/_static/venn_GCF_002251655_GCF_000009125.png)
+-->
 
 Since these are members of different species, we expect to see a low Jaccard similarity and containment. The Venn diagram shows that there are some shared k-mers, but the majority of k-mers are unique to each genome. We can use the containment to estimate the average ANI (Average Nucleotide Identity) between the two genomes, which is a measure of how similar the genomes are at the nucleotide level. Here, we estimate 93.6% ANI.
 
@@ -347,7 +350,7 @@ sourmash scripts venn GCF_002251655.sig GCF_001587155.sig -k 31 \
 ![venn_GCF_002251655-x-GCF_001587155](https://hackmd.io/_uploads/rkZBoetzll.png)
 
 
-### Comparing many genomes at once
+## Comparing many genomes at once
 
 `sourmash sig overlap` provides a wealth of information for interactive pairwise comparisons, but it can be cumbersome to use for many genomes. Instead, we can use the `sourmash sig compare` command to compare many genomes at once. This command will compute pairwise comparisons between all specified signatures and output a matrix of pairwise Jaccard similarities, containment ratios, or average containment ANI values.
 
@@ -384,3 +387,17 @@ The comparisons here are primarily to get you thinking about how k-mer sketches 
 ## Scaling up these comparisons
 
 > Here we have used primarily base `sourmash` commands, but if you want to scale to millions of pairwise comparisons, it's best to install the [branchwater](https://github.com/sourmash-bio/sourmash_plugin_branchwater) plugin for sourmash, which allows you to compute comparisons in parallel and with minimal memory utilization. For pairwise comparisons, use the `sourmash scripts pairwise` command instead of `sourmash compare`. The [betterplot](https://github.com/sourmash-bio/sourmash_plugin_betterplot) plugin (already installed here) also contains a few different visualizations you may want to explore.
+
+
+## Before we Break
+
+### Start a database download for Part 3
+
+```
+curl -JLO https://farm.cse.ucdavis.edu/~ctbrown/sourmash-db/gtdb-rs226/gtdb-rs226.k31-sc10k.sig.rocksdb.tar.gz &
+```
+
+
+## Next Part
+
+[Comparing genomes and metagenomes](https://hackmd.io/@bluegenes/Byh_JfKGgg)
