@@ -202,4 +202,4 @@ What have we seen?
 | 📥 **Mass download**            | `for acc … aws s3 cp …` or `parallel -j 4`                                  |
 
 
-Now, let's move on to [Part B](PartB.md).
+Now, let's move on to [Part B](module_5_logan_PartB.md).
