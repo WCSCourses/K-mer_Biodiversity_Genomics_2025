@@ -187,4 +187,4 @@ You’ve just queried **every** public sequencing run on Earth in minutes—welc
 
 
 
-Now, let's move on to [Part C](PartC.md).
+Now, let's move on to [Part C](module_5_logan_PartC.md).
