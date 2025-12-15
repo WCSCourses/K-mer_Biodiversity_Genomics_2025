@@ -8,6 +8,8 @@
 [Course Time Table 2025]() <br /> 
 [Course Informatics Guide](https://github.com/WCSCourses/K-mer_Workshop_2025/blob/main/Kmer_InformaticsGuide.md)
 
+**Cite the course here:** [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17942348.svg)](https://doi.org/10.5281/zenodo.17942348)
+
 ### Summary
 
 K-mers are a powerful tool in bioinformatics, unlocking solutions to a wide range of genomics challenges. This workshop is designed to make k-mer-based methods accessible and practical for researchers at all levels, providing the skills and knowledge needed to harness these techniques in genomics research. 
